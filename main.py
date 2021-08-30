@@ -171,18 +171,18 @@ class Mymainwindow(QMainWindow, Ui_mainWindow):
 
     def generateGrid_paint(self):
         self.dialog = dialog.dialog_paint_dxf()
-        self.dialog.paint_dxf_mesh_begin.connect(self.generateGrid_paint_begin())
         self.dialog.show()
+        self.dialog.paint_dxf_mesh_begin.connect(self.generateGrid_paint_begin)
 
     def generateGrid_dxf(self):
         self.dialog = dialog.dialog_paint_dxf()
         self.dialog.show()
-        self.dialog.paint_dxf_mesh_begin.connect(self.generateGrid_dxf_begin())
+        self.dialog.paint_dxf_mesh_begin.connect(self.generateGrid_dxf_begin)
 
     def generateGrid_img(self):
         self.dialog = dialog.dialog_img()
         self.dialog.show()
-        self.dialog.img_mesh_begin.connect(self.generateGrid_img_begin())
+        self.dialog.img_mesh_begin.connect(self.generateGrid_img_begin)
 
     def generateGrid_paint_begin(self):
         if self.My_Area.coord_rect_all is not None:

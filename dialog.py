@@ -34,14 +34,16 @@ class dialog_paint_dxf(QDialog, Ui_Dialog_paint_dxf):
         super().__init__()
         self.setupUi(self)
 
-        self.radioButton_high_density.toggled.connect(lambda: main.mainWindow.set_density(main.mainWindow, density=40))
+        self.radioButton_high_density.toggled.connect(
+            lambda: main.Mymainwindow.set_density(main.mainWindow, density=40))
         self.radioButton_mid_density.toggled.connect(
-            lambda: main.mainWindow.set_density(main.mainWindow, density=20))
+            lambda: main.Mymainwindow.set_density(main.mainWindow, density=20))
         self.radioButton_low_density.toggled.connect(
-            lambda: main.mainWindow.set_density(main.mainWindow, density=10))
+            lambda: main.Mymainwindow.set_density(main.mainWindow, density=10))
 
         self.pushButton.clicked.connect(lambda: self.send())
 
     def send(self):
         self.paint_dxf_mesh_begin.emit()
+        print(123)
         self.close()

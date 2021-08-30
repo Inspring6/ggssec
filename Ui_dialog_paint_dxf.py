@@ -35,7 +35,6 @@ class Ui_Dialog_paint_dxf(object):
         self.radioButton_mid_density.setObjectName("radioButton_mid_density")
         self.verticalLayout.addWidget(self.radioButton_mid_density)
         self.radioButton_low_density = QtWidgets.QRadioButton(self.layoutWidget)
-        self.radioButton_low_density.setChecked(True)
         self.radioButton_low_density.setObjectName("radioButton_low_density")
         self.verticalLayout.addWidget(self.radioButton_low_density)
         self.radioButton_custom = QtWidgets.QRadioButton(self.layoutWidget)

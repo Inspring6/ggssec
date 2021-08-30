@@ -14,7 +14,6 @@ from Physical_boundary_acquisition import *
 from function_class import *
 import dialog
 
-
 class Mymainwindow(QMainWindow, Ui_mainWindow):
     def __init__(self):
         super().__init__()
@@ -166,8 +165,10 @@ class Mymainwindow(QMainWindow, Ui_mainWindow):
             if self.jie_dian3.size:
                 np.save(savePath[-2], self.jie_dian3)
 
-    def set_density(self, density):
-        self.density = density
+    def set_density(self, send_density):
+        self.density = send_density
+        print(self.density)
+        return self.density
 
     def generateGrid_paint(self):
         self.dialog = dialog.dialog_paint_dxf()
@@ -191,7 +192,7 @@ class Mymainwindow(QMainWindow, Ui_mainWindow):
                 if plots_rect[0][0] == plots_rect[-1][0] and plots_rect[0][1] == plots_rect[-1][1]:
                     plots_rect = plots_rect[:len(plots_rect) - 1]
                 mesh1 = polygon_block_meshing(plots_rect, self.density, self.density)
-                mesh1.mesh(10)  ###############################################################
+                mesh1.mesh(10)  # ##############################################################
         if self.My_Area.coord_elli_all is not None:
             for i in range(len(self.My_Area.coord_elli_all)):
                 plots_ellipse = ellipse_block_meshing(self.My_Area.coord_elli_all[i], self.My_Area.elli_long_all[i],

@@ -22,7 +22,7 @@ class Mymainwindow(QMainWindow, Ui_mainWindow):
         self.My_Area = My_Board(self)
         self.My_Area.setGeometry(5, 55, self.My_Area.pixmap_length, self.My_Area.pixmap_wigth)
         self.retranslateUi(self)
-        self.density = 0
+        self.density = 10
         self.dialog = None
         self.jie_dian1 = np.array([])  #########################################################################
         self.jie_dian2 = np.array([])  #########################################################################
@@ -166,6 +166,7 @@ class Mymainwindow(QMainWindow, Ui_mainWindow):
                 np.save(savePath[-2], self.jie_dian3)
 
     def set_density(self, send_density):
+        self.density =0
         self.density = send_density
         print(self.density)
 

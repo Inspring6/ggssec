@@ -168,7 +168,7 @@ class Mymainwindow(QMainWindow, Ui_mainWindow):
     def set_density(self, send_density):
         self.density = send_density
         print(self.density)
-        return self.density
+
 
     def generateGrid_paint(self):
         self.dialog = dialog.dialog_paint_dxf()
@@ -186,6 +186,7 @@ class Mymainwindow(QMainWindow, Ui_mainWindow):
         self.dialog.img_mesh_begin.connect(self.generateGrid_img_begin)
 
     def generateGrid_paint_begin(self):
+        print(self.density)
         if self.My_Area.coord_rect_all is not None:
             for i in range(len(self.My_Area.coord_rect_all)):
                 plots_rect = np.array(self.My_Area.coord_rect_all[i])

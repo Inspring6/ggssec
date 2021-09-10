@@ -22,6 +22,8 @@ class Mymainwindow(QMainWindow, Ui_mainWindow):
         # 初始化
         self.setupUi(self)
         self.My_Area = My_Board(self)
+        self.tabWidget.tabCloseRequested.connect(self.closeTab)
+        self.tabWidget.setCurrentIndex(self.tabWidget.addTab(self.My_Area, "画板"))
         self.My_Area.setGeometry(5, 55, self.My_Area.pixmap_length, self.My_Area.pixmap_wigth)
         self.retranslateUi(self)
         self.density = 5
@@ -56,6 +58,9 @@ class Mymainwindow(QMainWindow, Ui_mainWindow):
         self.action_generateGrid_paint.triggered.connect(self.generateGrid_paint)
         self.action_generateGrid_dxf.triggered.connect(self.generateGrid_dxf)
         self.action_generateGrid_img.triggered.connect(self.generateGrid_img)
+
+    def closeTab(self, index):
+        self.tabWidget_2.removeTab(index)
 
     def paint_BoardClear(self):
         self.My_Area._IfEmpty = 0

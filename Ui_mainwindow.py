@@ -20,6 +20,13 @@ class Ui_mainWindow(object):
         mainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(mainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
+        self.tabWidget.setEnabled(True)
+        self.tabWidget.setGeometry(QtCore.QRect(0, 0, 1051, 521))
+        self.tabWidget.setAutoFillBackground(True)
+        self.tabWidget.setTabsClosable(True)
+        self.tabWidget.setTabBarAutoHide(False)
+        self.tabWidget.setObjectName("tabWidget")
         mainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(mainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1052, 26))
@@ -114,6 +121,7 @@ class Ui_mainWindow(object):
         self.toolBar.addAction(self.action_generateGrid_img)
 
         self.retranslateUi(mainWindow)
+        self.tabWidget.setCurrentIndex(-1)
         QtCore.QMetaObject.connectSlotsByName(mainWindow)
 
     def retranslateUi(self, mainWindow):

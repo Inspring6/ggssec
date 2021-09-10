@@ -11,8 +11,10 @@ from cv2 import *
 from Ui_mainwindow import Ui_mainWindow
 from paint_part import My_Board
 from Physical_boundary_acquisition import *
+from looking_for_vertices import *
 from function_class import *
 import dialog
+
 
 class Mymainwindow(QMainWindow, Ui_mainWindow):
     def __init__(self):
@@ -22,14 +24,15 @@ class Mymainwindow(QMainWindow, Ui_mainWindow):
         self.My_Area = My_Board(self)
         self.My_Area.setGeometry(5, 55, self.My_Area.pixmap_length, self.My_Area.pixmap_wigth)
         self.retranslateUi(self)
-        self.density = 10
+        self.density = 5
+        self.img_type = "正放矩形"
         self.dialog = None
-        self.jie_dian1 = np.array([])  #########################################################################
-        self.jie_dian2 = np.array([])  #########################################################################
-        self.jie_dian3 = np.array([])  #########################################################################
-        self.boundary_coordinates1 = []  #########################################################################
-        self.boundary_coordinates2 = []  #########################################################################
-        self.boundary_coordinates3 = []  #########################################################################
+        self.jie_dian1 = np.array([])  # ########################################################################
+        self.jie_dian2 = np.array([])  # ########################################################################
+        self.jie_dian3 = np.array([])  # ########################################################################
+        self.boundary_coordinates1 = []  # ########################################################################
+        self.boundary_coordinates2 = []  # ########################################################################
+        self.boundary_coordinates3 = []  # ########################################################################
         self.statusBar().showMessage('                                    坐标')
         self.statusBar().show()
         self.Board_Coordinates = QLabel('')
@@ -135,10 +138,11 @@ class Mymainwindow(QMainWindow, Ui_mainWindow):
     def open_img(self):
         img_name = QFileDialog.getOpenFileName(None, '选择文件', '.\\')
         Filepath = img_name[0]
+        fileInfo = QFileInfo(Filepath)
         if Filepath:
             self.img = cv_imread(Filepath)
             img1 = resize(self.img, None, fx=0.6, fy=0.6, interpolation=INTER_AREA)  # 将图片显示为原来的60%
-            imshow('IMREAD_GRAYSCALE+Color', img1)
+            imshow(fileInfo.fileName(), img1)
             self.h, self.w = self.img.shape[:]
             # self.num_edges = 1  # 多边形的边数
             waitKey(0)
@@ -154,7 +158,7 @@ class Mymainwindow(QMainWindow, Ui_mainWindow):
         image = self.My_Area.make_image()
         image.save(savePath[0], "png", -1)
 
-    def save_sta(self):  ######################################################################################
+    def save_sta(self):  # #####################################################################################
         savePath = QFileDialog.getSaveFileName(None, '选择保存路径', '.\\', '*.npy')
         print(savePath[0])
         if savePath[0]:
@@ -166,10 +170,13 @@ class Mymainwindow(QMainWindow, Ui_mainWindow):
                 np.save(savePath[-2], self.jie_dian3)
 
     def set_density(self, send_density):
-        self.density =0
+        self.density = 0
         self.density = send_density
         print(self.density)
 
+    def set_img_type(self, img_type):
+        self.img_type = img_type
+        print(self.img_type)
 
     def generateGrid_paint(self):
         self.dialog = dialog.dialog_paint_dxf()
@@ -231,7 +238,61 @@ class Mymainwindow(QMainWindow, Ui_mainWindow):
             plt.show()
 
     def generateGrid_img_begin(self):
-        pass
+        if self.img_type == "正放矩形":
+            self.low_img = Decrease_pixel_density(self.img)
+            self.looking_for_vertices = LookingForVertices(self.low_img)
+            boundary_coordinates = self.looking_for_vertices.Extract_put_rectangular()
+            del boundary_coordinates[0]
+            self.boundary_coordinates1 = rank(change_coordinate(self.h, boundary_coordinates))
+            # boundary_coordinates[[0, 1] ,:] = boundary_coordinates[[1, 0] ,:]
+            self.boundary_coordinates1_paint = rank(boundary_coordinates)
+            # self.boundary_coordinates1_paint[[0, 1], :] = self.boundary_coordinates1_paint[[1, 0], :]
+            spots_up = []
+            for i in range(len(self.boundary_coordinates1_paint)):
+                a = QPoint(self.boundary_coordinates1_paint[i][0], self.boundary_coordinates1_paint[i][1])
+                spots_up.append(a)
+            self.My_Area.points_up = copy.deepcopy(spots_up)
+            plots = np.array(self.boundary_coordinates1)
+            mesh1 = polygon_block_meshing(plots, self.density, self.density)
+            self.jie_dian1 = mesh1.mesh(10)
+            self.boundary_coordinates1 = []
+        elif self.img_type == "斜放矩形":
+            self.low_img = Decrease_pixel_density(self.img)
+            self.looking_for_vertices = LookingForVertices(self.low_img)
+            boundary_coordinates = self.looking_for_vertices.Extract_sideway_rectangular_fast()
+            del boundary_coordinates[0]
+            self.boundary_coordinates2 = rank(change_coordinate(self.h, boundary_coordinates))
+            self.boundary_coordinates2_paint = rank(boundary_coordinates)
+            spots_xie = []
+            for i in range(len(self.boundary_coordinates2_paint)):
+                a = QPoint(self.boundary_coordinates2_paint[i][0], self.boundary_coordinates2_paint[i][1])
+                spots_xie.append(a)
+            self.My_Area.points_xie = copy.deepcopy(spots_xie)
+            plots = np.array(self.boundary_coordinates2)
+            mesh1 = polygon_block_meshing(plots, self.density, self.density)
+            self.jie_dian2 = mesh1.mesh(10)
+            self.boundary_coordinates2 = []
+        elif self.img_type == "正放圆形":
+            self.low_img = Decrease_pixel_density(self.img)
+            self.looking_for_vertices = LookingForVertices(self.low_img)
+            boundary_coordinates = self.looking_for_vertices.Extract_circle()
+            del boundary_coordinates[0]
+            self.boundary_coordinates3 = change_coordinate(self.h, boundary_coordinates)
+            self.boundary_coordinates3_paint = boundary_coordinates
+            self.spots_cir = []
+            a = [self.boundary_coordinates3_paint[2][1], self.boundary_coordinates3_paint[0][0]]
+            b = [self.boundary_coordinates3_paint[3][1], self.boundary_coordinates3_paint[1][0]]
+            self.spots_cir.append(a)
+            self.spots_cir.append(b)
+            self.My_Area.points_cir = copy.deepcopy(self.spots_cir)
+            print(self.My_Area.points_cir)
+            plots = np.array(self.boundary_coordinates3)
+            c = [(plots[0][0] + plots[1][0]) / 2, (plots[0][1] + plots[1][1]) / 2]
+            l = max(abs((plots[0][0] - plots[1][0]) / 2), abs((plots[2][1] - plots[3][1]) / 2))
+            r = min(abs((plots[0][0] - plots[1][0]) / 2), abs((plots[2][1] - plots[3][1]) / 2))
+            a = ellipse_block_meshing(c, c + np.array([l, 0]), r, self.density, self.density)
+            self.jie_dian3 = a.mesh(5)
+            self.boundary_coordinates3 = []
 
 
 if __name__ == "__main__":

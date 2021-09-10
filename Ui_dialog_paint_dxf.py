@@ -41,7 +41,9 @@ class Ui_Dialog_paint_dxf(object):
         self.radioButton_custom.setObjectName("radioButton_custom")
         self.verticalLayout.addWidget(self.radioButton_custom)
         self.lineEdit = QtWidgets.QLineEdit(self.layoutWidget)
-        self.lineEdit.setEnabled(True)
+        self.lineEdit.setEnabled(False)
+        self.lineEdit.setInputMask("")
+        self.lineEdit.setText("")
         self.lineEdit.setObjectName("lineEdit")
         self.verticalLayout.addWidget(self.lineEdit)
 
@@ -57,3 +59,4 @@ class Ui_Dialog_paint_dxf(object):
         self.radioButton_mid_density.setText(_translate("Dialog_paint_dxf", "中"))
         self.radioButton_low_density.setText(_translate("Dialog_paint_dxf", "低"))
         self.radioButton_custom.setText(_translate("Dialog_paint_dxf", "自定义"))
+        self.lineEdit.setPlaceholderText(_translate("Dialog_paint_dxf", "请输入2-50之间的整数"))

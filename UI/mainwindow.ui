@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>915</width>
+    <width>1052</width>
     <height>597</height>
    </rect>
   </property>
@@ -23,7 +23,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>915</width>
+     <width>1052</width>
      <height>26</height>
     </rect>
    </property>
@@ -57,7 +57,6 @@
     </property>
     <addaction name="action_generateGrid_paint"/>
     <addaction name="action_generateGrid_dxf"/>
-    <addaction name="action_generateGrid_img"/>
    </widget>
    <widget class="QMenu" name="menu_paint_tools">
     <property name="title">
@@ -113,6 +112,7 @@
    <addaction name="separator"/>
    <addaction name="action_generateGrid_dxf"/>
    <addaction name="action_generateGrid_paint"/>
+   <addaction name="action_generateGrid_img"/>
   </widget>
   <action name="action_open_dxf">
    <property name="text">

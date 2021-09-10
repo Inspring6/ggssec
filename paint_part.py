@@ -6,7 +6,7 @@ from PyQt5.QtCore import *
 class My_Board(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.pixmap_length = 905
+        self.pixmap_length = 1042
         self.pixmap_wigth = 515
         self.pixmap = QPixmap(self.pixmap_length, self.pixmap_wigth)
         self._IfEmpty = 1

@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_mainWindow(object):
     def setupUi(self, mainWindow):
         mainWindow.setObjectName("mainWindow")
-        mainWindow.resize(915, 597)
+        mainWindow.resize(1052, 597)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("../ico/mainwindow_ico.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         mainWindow.setWindowIcon(icon)
@@ -22,7 +22,7 @@ class Ui_mainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         mainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(mainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 915, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1052, 26))
         self.menubar.setObjectName("menubar")
         self.menu_file = QtWidgets.QMenu(self.menubar)
         self.menu_file.setObjectName("menu_file")
@@ -84,7 +84,6 @@ class Ui_mainWindow(object):
         self.menu_file.addAction(self.menu_savefile.menuAction())
         self.menu_tools.addAction(self.action_generateGrid_paint)
         self.menu_tools.addAction(self.action_generateGrid_dxf)
-        self.menu_tools.addAction(self.action_generateGrid_img)
         self.menu_paint.addAction(self.action_paint_line)
         self.menu_paint.addAction(self.action_paint_rect)
         self.menu_paint.addAction(self.action_paint_ellipse)
@@ -112,6 +111,7 @@ class Ui_mainWindow(object):
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.action_generateGrid_dxf)
         self.toolBar.addAction(self.action_generateGrid_paint)
+        self.toolBar.addAction(self.action_generateGrid_img)
 
         self.retranslateUi(mainWindow)
         QtCore.QMetaObject.connectSlotsByName(mainWindow)

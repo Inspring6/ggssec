@@ -60,7 +60,7 @@ class Mymainwindow(QMainWindow, Ui_mainWindow):
         self.action_generateGrid_img.triggered.connect(self.generateGrid_img)
 
     def closeTab(self, index):
-        self.tabWidget_2.removeTab(index)
+        self.tabWidget.removeTab(index)
 
     def paint_BoardClear(self):
         self.My_Area._IfEmpty = 0
@@ -186,16 +186,20 @@ class Mymainwindow(QMainWindow, Ui_mainWindow):
     def generateGrid_paint(self):
         self.dialog = dialog.dialog_paint_dxf()
         self.dialog.show()
+        self.dialog.paint_dxf_change_density.connect(self.set_density)
         self.dialog.paint_dxf_mesh_begin.connect(self.generateGrid_paint_begin)
 
     def generateGrid_dxf(self):
         self.dialog = dialog.dialog_paint_dxf()
         self.dialog.show()
+        self.dialog.paint_dxf_change_density.connect(self.set_density)
         self.dialog.paint_dxf_mesh_begin.connect(self.generateGrid_dxf_begin)
 
     def generateGrid_img(self):
         self.dialog = dialog.dialog_img()
         self.dialog.show()
+        self.dialog.img_change_type.connect(self.set_img_type)
+        self.dialog.img_change_density.connect(self.set_density)
         self.dialog.img_mesh_begin.connect(self.generateGrid_img_begin)
 
     def generateGrid_paint_begin(self):
